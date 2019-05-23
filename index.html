@@ -3,36 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <!-- 임시 CDN -->
-    <script src="https://unpkg.com/react@15/dist/react.js"></script>
-    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
-    <link rel="stylesheet" type="type/css" href="normalize.css">
-    <title>드롭다운</title>
-    <style>
-        body{padding: 30px;}
-        #text{background: pink;}
-        .ui-hidden{position: absolute; left: -9999px; display: block; width: 1px; height: 1px; overflow: hidden; background: transparent; color: transparent; font-size: xx-small; border: 0;}
-        .ui-dropdown{position: relative; display: inline-block; width: 150px; vertical-align: middle;}
-        .ui-dropdown-list{position: absolute; display: none; top: auto; left: 0; width: 100%; max-height: 300px; border: 1px solid #aaa; border-top: 0; overflow-y: auto; box-shadow: 0 0 5px #ccc}
-        .ui-dropdown-list.active{display: block;}
-        .ui-dropdown .ui-dropdown-btn.toggle-dropdown{position: relative; padding-right: 25px; border-width: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-        .ui-dropdown .ui-dropdown-btn.toggle-dropdown:after{position: absolute; top: 50%; right: 10px; display: block; margin-top: -2px; width: 0; height: 0; border-top: 6px solid #000; border-right: 5px solid transparent; border-bottom: 6px solid transparent; border-left: 5px solid transparent; content: "";}
-        .ui-dropdown .ui-dropdown-btn.toggle-dropdown.active:after{border-top-color: transparent; border-bottom-color: #000; margin-top: -8px}
-        .ui-dropdown .ui-dropdown-btn{display: block; width: 100%; padding: 10px 15px; color: #666; background: #fff; border: 1px solid #ccc; border-width: 1px 0 0;}
-        .ui-dropdown-list .ui-dropdown-btn:first-child{border-top: 0;}
-    </style>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <title>은졔의 리액트 겅부방</title>
 </head>
 <body>
-    <b>어떤 은지혜가 좋으세요?</b>
-    <div class="ui-dropdown" id="dropdown1">
-        <select name="" id="">
-            <option value="v1">은지혜은지혜은지혜은지혜은지혜은지혜</option>
-            <option value="v2">둘지혜</option>
-            <option value="v3">셋지혜</option>
-            <option value="v4">넷지혜</option>
-            <option value="v5">다섯지혜</option>
-            <option value="v6">육지혜</option>
-        </select>
+    <div id="root">
+        <b>어떤 은지혜가 좋으세요?</b>
+        <div class="ui-dropdown" id="dropdown1">
+            <select name="" id="">
+                <option value="v1">은지혜은지혜은지혜은지혜은지혜은지혜</option>
+                <option value="v2">둘지혜</option>
+                <option value="v3">셋지혜</option>
+                <option value="v4">넷지혜</option>
+                <option value="v5">다섯지혜</option>
+                <option value="v6">육지혜</option>
+            </select>
+        </div>
+        <div style="width: 100%; height: 500px; background: pink;">
+            위치확인<br>
+            위치확인<br>
+            위치확인<br>
+            위치확인<br>
+            위치확인<br>
+            위치확인<br>
+            위치확인<br>
+            위치확인<br>
+            위치확인<br>
+            위치확인<br>
+            위치확인<br>
+        </div>
     </div>
 
     <script type="text/babel">
@@ -41,7 +44,7 @@
         var dropdown = (function(){
             var id = null,
                 $drd = null,
-                $btnTgle = null,    // drd 토글 버튼
+                $btnTgl = null,    // drd 토글 버튼
                 $drdList = null,    // drd list
                 items = null,
                 options = [];
@@ -59,14 +62,133 @@
                 var btns = [],
                     drdList = document.createElement('div'),
                     btnTgl = document.createElement('button');
-                btnTgle.className = 'ui-dropdown-btn toggle-dropdown';
-                btnTgle.innerHTML = items.children[0].text;
+                btnTgl.className = 'ui-dropdown-btn toggle-dropdown';
+                btnTgl.innerHTML = items.children[0].text;
                 drdList.className = 'ui-dropdown-list';
                 // 객체 추가
-                $drd.appendChild(btnTgle);
-                $drd.appendChild(drdLIst);
-                // .....
+                $drd.appendChild(btnTgl);
+                $drd.appendChild(drdList);
+                // 객체 대입
+                $btnTgl = $drd.getElementsByClassName('toggle-dropdown')[0];
+                $drdList = $drd.getElementsByClassName('ui-dropdown-list')[0];
+                Array.prototype.forEach.call(items.children,
+                    (element, i) => {
+                        function AddBtns(props) {
+                            const btn = React.createElement(
+                                'button', {
+                                    type: 'button',
+                                    className: 'ui-dropdown-btn',
+                                    value: props.value
+                                },
+                                props.text
+                            )
+                            return btn;
+                        }
+                        btns.push(<AddBtns key={i} value={element.value} text={element.text}/>);
+                        if (i === items.length-1) {
+                            ReactDOM.render(
+                                btns,
+                                $drdList
+                            )
+                        }
+
+                        /*
+                        // [방법 2] 단순히 js로 태그 추가(innerHTML 사용)
+                        // appendChild와 innerHTML += 중, 속도는 appendChild가 더 빠르다.
+                        // appendChild = 추가 데이터만 등록, innerHTML = 전체 데이터 + 추가 데이터 모두 불러옴.
+                        btns += `<button type="button" class="ui-dropdown-btn" value="${element.value}">${element.text}</button>`;
+                        $drdList.innerHTML = btns;
+                        */
+
+                    }   
+                )
             }
+            function toggleList() {
+                $btnTgl.classList.toggle('active');
+                $drdList.classList.toggle('active');
+
+                
+                /*
+                // [클래스 컴포넌트 내 로컬 변수로 객체 생성하기]
+                class Test extends React.Component{
+                    constructor(props){
+                        super(props);
+                        this.state = {
+                            element: null
+                        }
+                    };
+                    componentDidMount() {
+                        this.setState( {
+                            element: React.createElement(
+                                'h1', {
+                                    className: 'hihi',
+                                },
+                                '안녕하세요'
+                            )
+                        })
+                    };
+                    render() {
+                        return (
+                            <div>
+                                {this.state.element}
+                            </div>
+                        )
+                    }
+                };
+                ReactDOM.render(
+                    <Test />,
+                    document.getElementById('root')
+                )
+                */
+                
+            }
+            function selectItem() {
+                var fnSelectBtn,
+                    $selectBtn,
+                    $selectOption,
+                    index;
+
+                // 드로다운 버튼 하나하나에
+                Array.prototype.forEach.call($drdList.children,
+                    ($btnItem) => {
+                        // 다음 클릭 이벤트를 건다
+                        $btnItem.addEventListener('click', fnSelectBtn = function(e) {
+                            // 모든 option의 select 초기화
+                            Array.prototype.forEach.call(items.children,
+                                (element) => element.removeAttribute('selected')
+                            )
+                            $selectBtn = e.target;
+                            $btnTgl.innerText = $selectBtn.innerText;
+                            // 선택된 요소가 몇번 째 노드인지 반환
+                            for (var i=0; i<$drdList.children.length; i++) {
+                                if ($drdList.children[i] === $selectBtn) {
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            // 선택된 요소와 (인덱스로) 매치되는  option 노드 세팅
+                            options[index].setAttribute('selected', 'selected');
+                            $btnTgl.classList.remove('active');
+                            $drdList.classList.remove('active');
+                        });
+                    }
+                );
+            }
+            return {
+                init(opt) {
+                    id = opt.id;
+                    $drd = document.getElementById(id);
+                    setting();
+                    $btnTgl.addEventListener('click', ()=>{
+                        toggleList();
+                    }, false);
+                    selectItem();
+                }
+            }
+        })();
+
+        dropdown.init({
+            id: 'dropdown1'
         })
     </script>
 </body>
