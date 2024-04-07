@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styles from '@/app/page.module.css';
+import styles from '@/app/main.module.css';
 
 type Props = {children: ReactNode, modal: ReactNode};
 

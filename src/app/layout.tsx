@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css"; // .module이 들어있지않으면, 모든 페이지에 적용되는 css
-import styles from './page.module.css'; // 특정 스타일에만 적용시켜줄 스타일은 .module
+import styles from './main.module.css'; // 특정 스타일에만 적용시켜줄 스타일은 .module
 
 const inter = Inter({ subsets: ['latin'] });
 
