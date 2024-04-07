@@ -1,6 +1,6 @@
 "use client";
 
-import style from './login.module.css';
+import style from './main.module.css';
 import {useRouter} from "next/navigation";
 import {ChangeEventHandler, FormEventHandler, useState} from "react";
 

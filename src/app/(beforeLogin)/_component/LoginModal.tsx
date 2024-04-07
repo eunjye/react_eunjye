@@ -1,6 +1,6 @@
 "use client";
 
-import style from '@/app/(beforeLogin)/_component/login.module.css';
+import style from "@/app/(beforeLogin)/_component/main.module.css";
 import { useRouter } from 'next/navigation';
 import {useState} from "react";
 
