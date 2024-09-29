@@ -1,12 +1,14 @@
 import { Inter } from "next/font/google";
 import "./globals.css"; // .module이 들어있지않으면, 모든 페이지에 적용되는 css
+import { Metadata } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const Metadata = {
+export const metadata: Metadata = {
   title: 'Next App',
   description: 'Desc',
 }
+
 
 type Props = {
   children: React.ReactNode;

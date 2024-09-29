@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from 'next/link';
 import zLogo from '@/../public/zlogo.png';
 
-export default function BeforeLoginHome() {
+export function BeforeLoginHome() {
   return (
     <>
       <div className={styles.left}>
