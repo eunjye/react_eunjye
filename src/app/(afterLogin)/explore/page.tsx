@@ -1,8 +1,7 @@
-
-export default function Profile() {
+export default function ExplorePage() {
   return (
-    <main>
-      프로필
-    </main>
+    <>
+      탐색페이지
+    </>
   )
 }
